@@ -19,6 +19,7 @@ import jdk.jshell.spi.ExecutionControl;
 import java.awt.event.ActionEvent;
 import java.beans.EventHandler;
 import java.util.EventListener;
+import java.util.Random;
 
 
 public class Pong1 extends Application {
@@ -56,13 +57,20 @@ public class Pong1 extends Application {
     private double vx = 5;
     private double vy = 2;
 
+    private void initKula() {
+        Random lott = new Random();
+        x = lott.nextDouble() * ARENAWIDTH + ARENAX1;
+        y = lott.nextDouble() * ARENAHEIGHT + ARENAY1;
 
+        vx = 5 + lott.nextDouble() * 20;
+        vy = 5 + lott.nextDouble() * 20;
+    }
     private void run(GraphicsContext gc) {
         gc.setFill(Color.BLACK);
         gc.fillRect(ARENAX1, ARENAY1, ARENAWIDTH, ARENAHEIGHT);
 
-        if((x <= ARENAX1) || ((x>=ARENAX2 - 20))) vx = -vx;
-        if((y <= ARENAY1) || ((y>=ARENAY2 - 20))) vy = -vy;
+        if((x - R <= ARENAX1) || ((x + R >=ARENAX2 - 20))) vx = -vx;
+        if((y - R <= ARENAY1) || ((y + R >=ARENAY2 - 20))) vy = -vy;
         //odjęcie marginesów ruchu dla piłki po prawej stronie oraz na dole w celu uniknięcia przenikania piłki
 
         x += vx;
@@ -70,7 +78,7 @@ public class Pong1 extends Application {
 
 
         gc.setFill(Color.WHITESMOKE);
-        gc.fillOval(x, y, 2*R, 2*R);
+        gc.fillOval(x-R, y-R, 2*R, 2*R);
     }
 
 
